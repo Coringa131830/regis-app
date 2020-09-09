@@ -1,12 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_pantry/pages/home/home_page.dart';
+import 'package:smart_pantry/animation/fade_animation.dart';
 import 'package:smart_pantry/pages/home/initial_page.dart';
-import 'package:smart_pantry/pages/login/usuario.dart';
 import 'package:smart_pantry/utils/alert.dart';
 import 'package:smart_pantry/utils/nav.dart';
-import 'package:smart_pantry/widgets/app_button.dart';
-import 'package:smart_pantry/widgets/app_text.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,39 +11,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  @override
-  void initState() {
-    super.initState();
+  final _tLogin = TextEditingController();
 
-    Future<Usuario> future = Usuario.get();
-
-    future.then((Usuario user) {
-      if (user != null)
-        setState(() {
-          _tLogin.text = user.email;
-        });
-    });
-  }
+  final _tSenha = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   bool _showProgress = false;
 
-  final _tLogin = TextEditingController();
-
-  final _tSenha = TextEditingController();
-
-  final _focusSenha = FocusNode();
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.orangeAccent,
-        title: Text("Login"),
-        centerTitle: true,
-      ),
       body: _body(),
     );
   }
@@ -55,81 +35,169 @@ class _LoginPageState extends State<LoginPage> {
     return Form(
       key: _formKey,
       child: Container(
-        color: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: SingleChildScrollView(
-          child: Container(
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 30),
-                  SizedBox(height: 30),
-                  AppText(
-                    "Digite seu email",
-                    "",
-                    validator: (s) => _validateLogin(s),
-                    controller: _tLogin,
-                    nextFocus: _focusSenha,
-                    keyboardType: TextInputType.emailAddress,
-                    inputAction: TextInputAction.next,
-                  ),
-                  SizedBox(height: 20),
-                  AppText(
-                    "Digite sua senha",
-                    "",
-                    validator: (s) => _validateSenha(s),
-                    controller: _tSenha,
-                    focusNode: _focusSenha,
-                    keyboardType: TextInputType.text,
-                    inputAction: TextInputAction.done,
-                    password: true,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Text(
-                          "Esqueci a senha",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            colors: [
+              Colors.redAccent,
+              Colors.red[700],
+              Colors.red[400],
+            ],
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 80,
+            ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: FadeAnimation(
+                  1,
+                  Text(
+                    "Login",
+                    style: TextStyle(color: Colors.white, fontSize: 40),
+                  )),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(60),
+                        topRight: Radius.circular(60))),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.all(30),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 60,
+                        ),
+                        FadeAnimation(
+                            1.4,
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.red[200],
+                                        // color: Color.fromRGBO(225, 95, 27, .3),
+                                        blurRadius: 20,
+                                        offset: Offset(0, 10))
+                                  ]),
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: Colors.grey[200]))),
+                                    child: TextFormField(
+                                      decoration: InputDecoration(
+                                        labelText: "E-mail",
+                                        hintText: "Digite seu e-mail",
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
+                                      controller: _tLogin,
+                                      validator: _validateLogin,
+                                      textInputAction: TextInputAction.next,
+                                      keyboardType: TextInputType.emailAddress,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: Colors.grey[200]))),
+                                    child: TextFormField(
+                                      decoration: InputDecoration(
+                                        labelText: "Senha",
+                                        hintText: "Digite sua senha",
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
+                                      controller: _tSenha,
+                                      validator: _validateSenha,
+                                      textInputAction: TextInputAction.done,
+                                      keyboardType: TextInputType.text,
+                                      obscureText: true,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        FadeAnimation(
+                            1.6,
+                            Container(
+                              height: 50,
+                              margin: EdgeInsets.symmetric(horizontal: 50),
+                              child: RaisedButton(
+                                color: Colors.red[900],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                onPressed: _signInWithEmailAndPassword,
+                                child: Center(
+                                  child: _showProgress
+                                      ? CircularProgressIndicator(
+                                          valueColor: AlwaysStoppedAnimation(
+                                            Colors.white,
+                                          ),
+                                        )
+                                      : Text(
+                                          "Login",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                ),
+                              ),
+                            )),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        FadeAnimation(
+                          1.9,
+                          InkWell(
+                            child: Text("Esqueci minha senha"),
+                            onTap: () {},
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 20),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 10),
-                      child: AppButton(
-                        "CONTINUAR",
-                        onPressed: _signInWithEmailAndPassword,
-                        showprogress: _showProgress,
-                      )),
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
   }
 
-  String _validateLogin(String text) {
+  String _validateLogin(text) {
     if (text.isEmpty) {
-      return "Digite o e-mail";
+      return "Digite o login";
     }
     return null;
   }
 
-  String _validateSenha(String text) {
+  String _validateSenha(text) {
     if (text.isEmpty) {
-      return "Digite a sua senha";
+      return "Digite a senha";
     }
     return null;
   }
@@ -139,35 +207,23 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-
-    setState(() {
-      _showProgress = true;
-    });
-
-
-    final User fUser = (await FirebaseAuth.instance
+    final User user = (await FirebaseAuth.instance
             .signInWithEmailAndPassword(
       email: _tLogin.text,
       password: _tSenha.text,
     )
             .catchError(() {
-              setState(() {
-                _showProgress = false;
-              });
-      alert(context, "Não foi possível fazer o login, tente novamente!");
+      setState(() {
+        _showProgress = false;
+      });
+
+      alert(context, "Não foi possível fazer o login, tente novamente.");
     }))
         .user;
-
-    // Cria um usuario do app
-    final user = Usuario(
-        nome: fUser.displayName, email: fUser.email, foto: fUser.photoURL);
-    user.save();
 
     setState(() {
       _showProgress = false;
     });
-
-
     if (user != null) {
       push(context, InitialPage(), replace: true);
     } else {
