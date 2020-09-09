@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smart_pantry/pages/home/home_page.dart';
+import 'package:smart_pantry/pages/home/initial_page.dart';
 import 'package:smart_pantry/pages/login/login_page.dart';
 import 'package:smart_pantry/pages/login/usuario.dart';
 import 'package:smart_pantry/utils/nav.dart';
@@ -69,7 +70,7 @@ class _DrawerListState extends State<DrawerList> {
               title: Text("Opção 1"),
               onTap: () {
                 pop(context);
-                push(context, HomePage(), replace: true);
+                push(context, InitialPage(), replace: true);
               },
             ),
             ListTile(
