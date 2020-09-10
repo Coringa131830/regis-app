@@ -22,7 +22,7 @@ class _InitialPageState extends State<InitialPage> {
     _currentIdx = await Prefs.getInt("idx");
 
     if (_currentIdx == null) {
-      _currentIdx = 2;
+      _currentIdx = 0;
     }
 
     setState(() {});

@@ -1,7 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_pantry/animation/fade_animation.dart';
+import 'package:smart_pantry/pages/api_response.dart';
 import 'package:smart_pantry/pages/home/initial_page.dart';
+import 'package:smart_pantry/pages/login/login_bloc.dart';
 import 'package:smart_pantry/utils/alert.dart';
 import 'package:smart_pantry/utils/nav.dart';
 
@@ -18,6 +19,8 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   bool _showProgress = false;
+
+  final _bloc = LoginBloc();
 
   @override
   void initState() {
@@ -85,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.red[200],
+                                        color: Colors.red[200],
                                         // color: Color.fromRGBO(225, 95, 27, .3),
                                         blurRadius: 20,
                                         offset: Offset(0, 10))
@@ -144,27 +147,34 @@ class _LoginPageState extends State<LoginPage> {
                             Container(
                               height: 50,
                               margin: EdgeInsets.symmetric(horizontal: 50),
-                              child: RaisedButton(
-                                color: Colors.red[900],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                onPressed: _signInWithEmailAndPassword,
-                                child: Center(
-                                  child: _showProgress
-                                      ? CircularProgressIndicator(
-                                          valueColor: AlwaysStoppedAnimation(
-                                            Colors.white,
-                                          ),
-                                        )
-                                      : Text(
-                                          "Login",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                ),
-                              ),
+                              child: StreamBuilder<bool>(
+                                  stream: _bloc.stream,
+                                  initialData: false,
+                                  builder: (context, snapshot) {
+                                    return RaisedButton(
+                                      color: Colors.red[900],
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                      onPressed: _signInWithEmailAndPassword,
+                                      child: Center(
+                                        child: snapshot.data
+                                            ? CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation(
+                                                  Colors.white,
+                                                ),
+                                              )
+                                            : Text(
+                                                "Login",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                      ),
+                                    );
+                                  }),
                             )),
                         SizedBox(
                           height: 30,
@@ -206,28 +216,28 @@ class _LoginPageState extends State<LoginPage> {
     if (!_formKey.currentState.validate()) {
       return;
     }
+    /*setState(() {
+        _showProgress = true;
+      });
+      (await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _tLogin.text,
+        password: _tSenha.text,
+      ))
+          .user;
 
-    final User user = (await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-      email: _tLogin.text,
-      password: _tSenha.text,
-    )
-            .catchError(() {
       setState(() {
         _showProgress = false;
-      });
+      });*/
+    String login = _tLogin.text;
+    String senha = _tSenha.text;
 
-      alert(context, "Não foi possível fazer o login, tente novamente.");
-    }))
-        .user;
+    ApiResponse response = await _bloc.login(login, senha);
 
-    setState(() {
-      _showProgress = false;
-    });
-    if (user != null) {
+    if (response.ok) {
       push(context, InitialPage(), replace: true);
     } else {
-      alert(context, "Não foi possível fazer o login, tente novamente!");
+      alert(context,
+          "Não foi possível fazer o login.\nPor favor, verifique os dados e tente novamente!");
     }
   }
 }

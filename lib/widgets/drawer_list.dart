@@ -2,12 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:smart_pantry/firebase/firebase_service.dart';
 import 'package:smart_pantry/pages/home/home_page.dart';
 import 'package:smart_pantry/pages/home/initial_page.dart';
 import 'package:smart_pantry/pages/login/login_page.dart';
 import 'package:smart_pantry/pages/login/usuario.dart';
 import 'package:smart_pantry/utils/nav.dart';
 import 'package:smart_pantry/pages/blank_page.dart';
+import 'package:smart_pantry/utils/prefs.dart';
 
 class DrawerList extends StatefulWidget {
   @override
@@ -118,7 +120,8 @@ class _DrawerListState extends State<DrawerList> {
   }
 
   void _onClickLogout() async {
-    await FirebaseAuth.instance.signOut();
+    Prefs.setInt("idx", null);
+    await FirebaseService().logout();
     push(context, LoginPage(), replace: true);
   }
 }
