@@ -5,6 +5,8 @@ import 'package:smart_pantry/pages/despensa/despensa_page.dart';
 import 'package:smart_pantry/pages/gastos/gastos_page.dart';
 import 'package:smart_pantry/pages/home/home_page.dart';
 import 'package:smart_pantry/pages/lista/lista_page.dart';
+import 'package:smart_pantry/pages/notifications/notifications_page.dart';
+import 'package:smart_pantry/utils/nav.dart';
 import 'package:smart_pantry/utils/prefs.dart';
 import 'package:smart_pantry/widgets/drawer_list.dart';
 
@@ -79,7 +81,9 @@ class _InitialPageState extends State<InitialPage> {
           ),
         ),
         actions: [
-          IconButton(icon: Icon(Icons.notifications_outlined), onPressed: () {})
+          IconButton(icon: Icon(Icons.notifications_outlined), onPressed: () {
+            push(context, NotificationsPage());
+          })
         ],
       ),
       body: Container(child: CallPage(_currentIdx)),

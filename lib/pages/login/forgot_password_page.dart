@@ -1,33 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:smart_pantry/animation/fade_animation.dart';
 import 'package:smart_pantry/pages/api_response.dart';
-import 'package:smart_pantry/pages/home/initial_page.dart';
-import 'package:smart_pantry/pages/login/create_account.dart';
-import 'package:smart_pantry/pages/login/forgot_password_page.dart';
 import 'package:smart_pantry/pages/login/login_bloc.dart';
+import 'package:smart_pantry/pages/login/login_page.dart';
 import 'package:smart_pantry/utils/alert.dart';
 import 'package:smart_pantry/utils/nav.dart';
 
-class LoginPage extends StatefulWidget {
+class ForgotPasswordPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _tLogin = TextEditingController();
-
-  final _tSenha = TextEditingController();
-
-  final _formKey = GlobalKey<FormState>();
-
-  bool _showProgress = false;
 
   final _bloc = LoginBloc();
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +51,24 @@ class _LoginPageState extends State<LoginPage> {
               child: FadeAnimation(
                   1,
                   Text(
-                    "Login",
+                    "Redefinir senha",
                     style: TextStyle(color: Colors.white, fontSize: 40),
                   )),
             ),
             SizedBox(height: 20),
+            /*Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              child: FadeAnimation(
+                1.6,
+                Text(
+                  "Enviaremos um link para que você possa redefinir sua senha",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),*/
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
@@ -117,27 +119,6 @@ class _LoginPageState extends State<LoginPage> {
                                       keyboardType: TextInputType.emailAddress,
                                     ),
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[200]))),
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                        labelText: "Senha",
-                                        hintText: "Digite sua senha",
-                                        hintStyle:
-                                            TextStyle(color: Colors.grey),
-                                        border: InputBorder.none,
-                                      ),
-                                      controller: _tSenha,
-                                      validator: _validateSenha,
-                                      textInputAction: TextInputAction.done,
-                                      keyboardType: TextInputType.text,
-                                      obscureText: true,
-                                    ),
-                                  ),
                                 ],
                               ),
                             )),
@@ -158,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(25),
                                       ),
-                                      onPressed: _signInWithEmailAndPassword,
+                                      onPressed: _sendPasswordReset,
                                       child: Center(
                                         child: snapshot.data
                                             ? CircularProgressIndicator(
@@ -168,12 +149,11 @@ class _LoginPageState extends State<LoginPage> {
                                                 ),
                                               )
                                             : Text(
-                                                "Login",
+                                                "Enviar",
                                                 style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                ),
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold, fontSize: 20),
                                               ),
                                       ),
                                     );
@@ -185,25 +165,11 @@ class _LoginPageState extends State<LoginPage> {
                         FadeAnimation(
                           1.9,
                           InkWell(
-                            child: Text(
-                              "Esqueci minha senha",
-                              style: TextStyle(fontSize: 18),
-                            ),
+                            child: Text("Lembrou sua senha?", style: TextStyle(
+                                fontSize: 18
+                            )),
                             onTap: () {
-                              push(context, ForgotPasswordPage());
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        FadeAnimation(
-                          1.9,
-                          InkWell(
-                            child: Text(
-                              "Criar conta",
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            onTap: () {
-                              push(context, CreateAccountPage());
+                              push(context, LoginPage(), replace: true);
                             },
                           ),
                         ),
@@ -219,46 +185,28 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  String _validateLogin(text) {
-    if (text.isEmpty) {
-      return "Digite o login";
-    }
-    return null;
-  }
-
-  String _validateSenha(text) {
-    if (text.isEmpty) {
-      return "Digite a senha";
-    }
-    return null;
-  }
-
-  void _signInWithEmailAndPassword() async {
+  _sendPasswordReset() async {
     if (!_formKey.currentState.validate()) {
       return;
     }
-    /*setState(() {
-        _showProgress = true;
-      });
-      (await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _tLogin.text,
-        password: _tSenha.text,
-      ))
-          .user;
 
-      setState(() {
-        _showProgress = false;
-      });*/
-    String login = _tLogin.text;
-    String senha = _tSenha.text;
+    String email = _tLogin.text;
 
-    ApiResponse response = await _bloc.login(login, senha);
+    ApiResponse response = await _bloc.reset(email);
 
     if (response.ok) {
-      push(context, InitialPage(), replace: true);
+      alert(context, "Um link foi enviado para seu email para redefinir sua senha", callback: (){
+        pop(context);
+      });
     } else {
-      alert(context,
-          "Não foi possível fazer o login.\nPor favor, verifique os dados e tente novamente!");
+      alert(context, response.msg);
     }
+  }
+
+  String _validateLogin(String text) {
+    if (text.isEmpty) {
+      return "Digite o seu e-mail";
+    }
+    return null;
   }
 }

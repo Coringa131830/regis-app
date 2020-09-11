@@ -19,4 +19,30 @@ class LoginBloc extends SimpleBloc<bool> {
     return response;
 
   }
+
+  Future<ApiResponse> reset(String email) async {
+
+    add(true);
+
+
+    ApiResponse response = await FirebaseService().reset(email);
+
+    add(false);
+
+    return response;
+
+  }
+
+  Future<ApiResponse> create(String email, String senha) async {
+
+    add(true);
+
+
+    ApiResponse response = await FirebaseService().create(email, senha);
+
+    add(false);
+
+    return response;
+
+  }
 }

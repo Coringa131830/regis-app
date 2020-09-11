@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:smart_pantry/utils/nav.dart';
 import 'package:smart_pantry/widgets/drawer_list.dart';
 
-import 'notifications/notifications_page.dart';
-
-class BlankPage extends StatelessWidget {
+class NotificationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,22 +21,16 @@ class BlankPage extends StatelessWidget {
             ),
           ),
         ),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.notifications_outlined),
-              onPressed: () {
-                push(context, NotificationsPage());
-              })
-        ],
       ),
       body: _body(),
     );
   }
 
   _body() {
+
     return Container(
       child: Center(
-        child: Text("Blank Page"),
+        child: Text("Notifications Page"),
       ),
     );
   }

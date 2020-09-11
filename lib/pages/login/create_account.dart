@@ -2,32 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:smart_pantry/animation/fade_animation.dart';
 import 'package:smart_pantry/pages/api_response.dart';
 import 'package:smart_pantry/pages/home/initial_page.dart';
-import 'package:smart_pantry/pages/login/create_account.dart';
-import 'package:smart_pantry/pages/login/forgot_password_page.dart';
 import 'package:smart_pantry/pages/login/login_bloc.dart';
+import 'package:smart_pantry/pages/login/login_page.dart';
 import 'package:smart_pantry/utils/alert.dart';
 import 'package:smart_pantry/utils/nav.dart';
 
-class LoginPage extends StatefulWidget {
+class CreateAccountPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _CreateAccountPageState createState() => _CreateAccountPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _CreateAccountPageState extends State<CreateAccountPage> {
+  final _formKey = GlobalKey<FormState>();
+
   final _tLogin = TextEditingController();
 
   final _tSenha = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
-
-  bool _showProgress = false;
+  final _tConfirm = TextEditingController();
 
   final _bloc = LoginBloc();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
               child: FadeAnimation(
                   1,
                   Text(
-                    "Login",
+                    "Criar conta",
                     style: TextStyle(color: Colors.white, fontSize: 40),
                   )),
             ),
@@ -138,6 +132,27 @@ class _LoginPageState extends State<LoginPage> {
                                       obscureText: true,
                                     ),
                                   ),
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: Colors.grey[200]))),
+                                    child: TextFormField(
+                                      decoration: InputDecoration(
+                                        labelText: "Confirmar senha",
+                                        hintText: "Confirme sua senha",
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
+                                        border: InputBorder.none,
+                                      ),
+                                      controller: _tConfirm,
+                                      validator: _validateConfirm,
+                                      textInputAction: TextInputAction.done,
+                                      keyboardType: TextInputType.text,
+                                      obscureText: true,
+                                    ),
+                                  ),
                                 ],
                               ),
                             )),
@@ -145,65 +160,51 @@ class _LoginPageState extends State<LoginPage> {
                           height: 40,
                         ),
                         FadeAnimation(
-                            1.6,
-                            Container(
-                              height: 50,
-                              margin: EdgeInsets.symmetric(horizontal: 50),
-                              child: StreamBuilder<bool>(
-                                  stream: _bloc.stream,
-                                  initialData: false,
-                                  builder: (context, snapshot) {
-                                    return RaisedButton(
-                                      color: Colors.red[900],
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      onPressed: _signInWithEmailAndPassword,
-                                      child: Center(
-                                        child: snapshot.data
-                                            ? CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation(
-                                                  Colors.white,
-                                                ),
-                                              )
-                                            : Text(
-                                                "Login",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                      ),
-                                    );
-                                  }),
-                            )),
+                          1.6,
+                          Container(
+                            height: 50,
+                            margin: EdgeInsets.symmetric(horizontal: 50),
+                            child: StreamBuilder<bool>(
+                              stream: _bloc.stream,
+                              initialData: false,
+                              builder: (context, snapshot) {
+                                return RaisedButton(
+                                  color: Colors.red[900],
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  onPressed: _createAccount,
+                                  child: Center(
+                                    child: snapshot.data
+                                        ? CircularProgressIndicator(
+                                            valueColor: AlwaysStoppedAnimation(
+                                              Colors.white,
+                                            ),
+                                          )
+                                        : Text(
+                                            "Criar",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: 30,
                         ),
                         FadeAnimation(
                           1.9,
                           InkWell(
-                            child: Text(
-                              "Esqueci minha senha",
-                              style: TextStyle(fontSize: 18),
-                            ),
+                            child: Text("Já tem uma conta?", style: TextStyle(
+                              fontSize: 18
+                            ),),
                             onTap: () {
-                              push(context, ForgotPasswordPage());
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        FadeAnimation(
-                          1.9,
-                          InkWell(
-                            child: Text(
-                              "Criar conta",
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            onTap: () {
-                              push(context, CreateAccountPage());
+                              push(context, LoginPage(), replace: true);
                             },
                           ),
                         ),
@@ -219,46 +220,57 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  String _validateLogin(text) {
+  String _validateLogin(String text) {
     if (text.isEmpty) {
-      return "Digite o login";
+      return "Confirme a sua senha";
     }
     return null;
   }
 
-  String _validateSenha(text) {
+  String _validateSenha(String text) {
     if (text.isEmpty) {
-      return "Digite a senha";
+      return "Confirme a sua senha";
     }
     return null;
   }
 
-  void _signInWithEmailAndPassword() async {
+  String _validateConfirm(String text) {
+    if (text.isEmpty) {
+      return "Confirme a sua senha";
+    }
+    return null;
+  }
+
+  _createAccount() async {
     if (!_formKey.currentState.validate()) {
       return;
     }
-    /*setState(() {
-        _showProgress = true;
-      });
-      (await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _tLogin.text,
-        password: _tSenha.text,
-      ))
-          .user;
 
-      setState(() {
-        _showProgress = false;
-      });*/
-    String login = _tLogin.text;
+    String email = _tLogin.text;
     String senha = _tSenha.text;
+    String confirm = _tConfirm.text;
 
-    ApiResponse response = await _bloc.login(login, senha);
+    if (senha == confirm) {
+      ApiResponse response = await _bloc.create(email, senha);
 
-    if (response.ok) {
-      push(context, InitialPage(), replace: true);
+      if (response.ok) {
+        ApiResponse loginResponse = await _bloc.login(email, senha);
+
+        if (loginResponse.ok) {
+          push(context, InitialPage(), replace: true);
+        } else {
+          alert(context,
+              "Não foi possível fazer o login.\nVolte para a tela inicial e tente novamente!",
+              callback: () {
+            pop(context);
+          });
+        }
+      } else {
+        alert(context, response.msg);
+      }
     } else {
       alert(context,
-          "Não foi possível fazer o login.\nPor favor, verifique os dados e tente novamente!");
+          "As senhas não correspondem.\nPor favor, verifique os valores digitados e tente novamente");
     }
   }
 }
