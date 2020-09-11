@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:smart_pantry/utils/consts.dart';
 import 'package:smart_pantry/widgets/drawer_list.dart';
 
 class NotificationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerList(),
+      drawer: DrawerList(colorBeginRed, colorEndYellow),
       appBar: AppBar(
         centerTitle: true,
         title: Text("Smart Pantry"),
@@ -29,8 +30,17 @@ class NotificationsPage extends StatelessWidget {
   _body() {
 
     return Container(
-      child: Center(
-        child: Text("Notifications Page"),
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Image.asset('assets/logos/logo_mini.png'),
+          SizedBox(height: 50),
+          Center(
+            child: Image.asset('assets/images/notifications.png'),
+          ),
+        ],
       ),
     );
   }

@@ -53,7 +53,7 @@ class FirebaseService {
     } on FirebaseAuthException catch (e) {
       print(" >>> CODE : ${e.code}\n>>> ERRO : $e");
       return ApiResponse.error(
-          msg: "Não foi possível enviar o e-mail para redefinir a senha, tente novamente!");
+          msg: "Não foi possível criar sua conta, tente novamente!");
     }
   }
 

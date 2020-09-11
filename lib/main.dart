@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_pantry/pages/home/initial_page.dart';
 import 'package:smart_pantry/pages/splash/splash_page.dart';
 
 Future<void> main() async {
@@ -18,6 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        scaffoldBackgroundColor: Colors.white,
       ),
       home: SplashPage(),
     );

@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:smart_pantry/animation/fade_animation.dart';
 import 'package:smart_pantry/pages/api_response.dart';
-import 'package:smart_pantry/pages/login/email_page.dart';
+import 'package:smart_pantry/pages/home/initial_page.dart';
+import 'package:smart_pantry/pages/login/forgot_password_page.dart';
 import 'package:smart_pantry/pages/login/login_bloc.dart';
 import 'package:smart_pantry/utils/alert.dart';
 import 'package:smart_pantry/utils/nav.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
+class SenhaPage extends StatefulWidget {
+  String email;
+
+  SenhaPage(this.email);
+
   @override
-  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
+  _SenhaPageState createState() => _SenhaPageState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
-  final _tLogin = TextEditingController();
+class _SenhaPageState extends State<SenhaPage> {
+  String get email => widget.email;
+  final _tSenha = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -45,18 +51,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       Container(
                         width: 280,
                         child: Text(
-                          "Digite seu e-mail e enviaremos um link para redefinir sua senha",
+                          "SENHA",
                           style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500
-                          ),
-                          textAlign: TextAlign.center,
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   Center(
                     child: FadeAnimation(
                       1.5,
@@ -65,7 +69,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         child: TextFormField(
                           decoration: InputDecoration(
                             labelText: "",
-                            hintText: "Digite seu e-mail",
+                            hintText: "Digite sua senha",
                             hintStyle: TextStyle(color: Colors.grey),
                             border: OutlineInputBorder(),
                             enabledBorder: OutlineInputBorder(
@@ -80,8 +84,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               ),
                             ),
                           ),
-                          controller: _tLogin,
-                          validator: _validateEmail,
+                          controller: _tSenha,
+                          validator: _validateSenha,
                           textInputAction: TextInputAction.done,
                           keyboardType: TextInputType.emailAddress,
                         ),
@@ -104,11 +108,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(17),
                                 ),
-                                onPressed: _onClickReset,
+                                onPressed: _onClickLogin,
                                 child: snapshot.data
                                     ? CircularProgressIndicator(
                                         valueColor: AlwaysStoppedAnimation(
-                                            Colors.white),
+                                          Colors.white,
+                                        ),
                                       )
                                     : Text(
                                         "CONTINUAR",
@@ -126,21 +131,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   SizedBox(height: 20),
                   FadeAnimation(
                     1.6,
-                    Container(
-                      width: 300,
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: InkWell(
-                          onTap: () {
-                            push(context, EmailPage(), replace: true);
-                          },
-                          child: Text(
-                            "Lembrei minha senha",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                              decoration: TextDecoration.underline,
-                            ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: InkWell(
+                        onTap: () {
+                          push(context, ForgotPasswordPage(), replace: true);
+                        },
+                        child: Text(
+                          "Esqueci minha senha",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                            decoration: TextDecoration.underline,
                           ),
                         ),
                       ),
@@ -155,24 +157,24 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     );
   }
 
-  String _validateEmail(String text) {
+  String _validateSenha(String text) {
     if (text.isEmpty) {
-      return "Digite seu e-mail";
+      return "Digite sua senha";
     } else {
       return null;
     }
   }
 
-  void _onClickReset() async {
+  void _onClickLogin() async {
     if (!_formKey.currentState.validate()) {
       return;
     }
-    String email = _tLogin.text;
+    String senha = _tSenha.text;
 
-    ApiResponse response = await _bloc.reset(email);
+    ApiResponse response = await _bloc.login(email, senha);
 
-    if (response.ok) {
-      push(context, EmailPage(), replace: true);
+    if(response.ok) {
+      push(context, InitialPage(), replace: true);
     } else {
       alert(context, response.msg);
     }

@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-// Drawer
-final drawerIconColor = new Color(0xffFFAD71);
-final headerBackground = new Color(0xff7ADB8D);
 
-// Categorias
-final carColor = new Color(0xffFFAD71);
-final escritorioColor = new Color(0xff77DC8B);
-final othersColor = new Color(0xffF1F4F2);
-final toolsColor = new Color(0xff5AC8AE);
+Color colorBeginRed = Color(0xffF74B4A);
+Color colorEndYellow = Color(0xffFAC40B);
+
+Color colorBeginBlue = Color(0xff30BAE0);
+Color colorEndGreen = Color(0xffBAE583);
 

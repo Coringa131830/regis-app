@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_pantry/animation/fade_animation.dart';
 import 'package:smart_pantry/pages/api_response.dart';
 import 'package:smart_pantry/pages/home/initial_page.dart';
-import 'package:smart_pantry/pages/login/create_account.dart';
+import 'package:smart_pantry/pages/login/create_account_email.dart';
 import 'package:smart_pantry/pages/login/forgot_password_page.dart';
 import 'package:smart_pantry/pages/login/login_bloc.dart';
 import 'package:smart_pantry/utils/alert.dart';
@@ -203,7 +203,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: TextStyle(fontSize: 18),
                             ),
                             onTap: () {
-                              push(context, CreateAccountPage());
+                              push(context, CreateAccountEmail());
                             },
                           ),
                         ),

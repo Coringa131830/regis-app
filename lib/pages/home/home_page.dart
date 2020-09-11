@@ -6,16 +6,17 @@ class HomePage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          Image.asset('assets/logos/logo_mini.png'),
+          /*SizedBox(height: 200),
           Center(
             child: Icon(
               Icons.home,
               size: 50,
             ),
-          ),
-          Center(child: Text("Home Page body")),
+          ),*/
         ],
       ),
     );

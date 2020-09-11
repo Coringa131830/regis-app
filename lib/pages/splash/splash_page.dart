@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_pantry/pages/home/home_page.dart';
 import 'package:smart_pantry/pages/home/initial_page.dart';
+import 'package:smart_pantry/pages/login/email_page.dart';
 import 'package:smart_pantry/pages/login/login_page.dart';
-import 'package:smart_pantry/pages/login/usuario.dart';
 import 'package:smart_pantry/utils/nav.dart';
 
 class SplashPage extends StatefulWidget {
@@ -12,7 +11,6 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-
   @override
   void initState() {
     super.initState();
@@ -24,13 +22,14 @@ class _SplashPageState extends State<SplashPage> {
       // Usuario user = values[1];
       User user = FirebaseAuth.instance.currentUser;
 
-      if(user != null) {
+      if (user != null) {
         push(context, InitialPage(), replace: true);
       } else {
-        push(context, LoginPage(), replace: true);
+        push(context, EmailPage(), replace: true);
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,21 +39,16 @@ class _SplashPageState extends State<SplashPage> {
 
   _body() {
     return Container(
+      color: Colors.white,
       padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.redAccent,
-            Colors.orangeAccent,
-          ],
-        ),
-      ),
-      child: Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation(Colors.white),
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(child: Image.asset('assets/logos/splash_logo.png')),
+          SizedBox(height: 10),
+          CircularProgressIndicator(),
+        ],
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DespensaPage extends StatelessWidget {
   @override
@@ -7,16 +6,14 @@ class DespensaPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          Image.asset('assets/logos/logo_mini.png'),
+          SizedBox(height: 80),
           Center(
-            child: Icon(
-              FontAwesomeIcons.shoppingBasket,
-              size: 50,
-            ),
+            child: Image.asset('assets/images/despensa.png'),
           ),
-          Text("Despensa page body"),
         ],
       ),
     );

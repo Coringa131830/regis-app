@@ -6,11 +6,12 @@ class GastosPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Center(child: Icon(Icons.monetization_on, size: 50,)),
-          Text("Controle Page body"),
+          Image.asset('assets/logos/logo_mini.png'),
+          SizedBox(height: 80),
+          Center(child: Image.asset('assets/images/gastos.png')),
         ],
       ),
     );

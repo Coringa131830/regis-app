@@ -1,28 +1,31 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smart_pantry/animation/fade_animation.dart';
 import 'package:smart_pantry/pages/notifications/notifications_page.dart';
 import 'package:smart_pantry/utils/consts.dart';
 import 'package:smart_pantry/utils/nav.dart';
 import 'package:smart_pantry/widgets/drawer_list.dart';
 
-class ProfilePage extends StatefulWidget {
+class AtualizarContaPage extends StatefulWidget {
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _AtualizarContaPageState createState() => _AtualizarContaPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  final _tNome = TextEditingController();
+class _AtualizarContaPageState extends State<AtualizarContaPage> {
+  final _tLogradouro = TextEditingController();
 
-  final _tSobrenome = TextEditingController();
+  final _tNum = TextEditingController();
 
-  final _tCPF = TextEditingController();
+  final _tComplemento = TextEditingController();
 
-  final _tEmail = TextEditingController();
+  final _tBairro = TextEditingController();
 
-  final _tCelular = TextEditingController();
+  final _tCEP = TextEditingController();
 
-  final _tNascimento = TextEditingController();
+  final _tEstado = TextEditingController();
+
+  final _tMunicipio = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +47,8 @@ class _ProfilePageState extends State<ProfilePage> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Colors.redAccent,
-                Colors.orangeAccent,
+                colorBeginRed,
+                colorEndYellow,
               ],
             ),
           ),
@@ -82,13 +85,27 @@ class _ProfilePageState extends State<ProfilePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Text("Endereço"),
                         SizedBox(height: 10),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.person,
-                            color: Colors.black,
-                            size: 36,
+                        Container(
+                          width: 145,
+                          height: 22,
+                          child: RaisedButton.icon(
+                            onPressed: () {},
+                            icon: Icon(
+                              FontAwesomeIcons.mapMarkerAlt,
+                              color: Colors.white,
+                              size: 14,
+                            ),
+                            label: Text(
+                              "Localização",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            color: Color(0xffEC3329),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6)),
                           ),
                         ),
                         SizedBox(height: 20),
@@ -98,7 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Container(
                               width: 280,
                               child: Text(
-                                "Nome",
+                                "Logradouro",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
@@ -116,7 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   labelText: "",
-                                  hintText: "Digite seu nome",
+                                  hintText: "Digite o logradouro",
                                   hintStyle: TextStyle(color: Colors.grey),
                                   border: OutlineInputBorder(),
                                   enabledBorder: OutlineInputBorder(
@@ -132,9 +149,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                 ),
-                                controller: _tNome,
-                                validator: _validateNome,
-                                textInputAction: TextInputAction.next,
+                                controller: _tLogradouro,
+                                validator: _validateLogradouro,
+                                textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.text,
                               ),
                             ),
@@ -147,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Container(
                               width: 280,
                               child: Text(
-                                "Sobrenome",
+                                "Número",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
@@ -165,7 +182,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   labelText: "",
-                                  hintText: "Digite seu sobrenome",
+                                  hintText: "Digite o número",
                                   hintStyle: TextStyle(color: Colors.grey),
                                   border: OutlineInputBorder(),
                                   enabledBorder: OutlineInputBorder(
@@ -180,9 +197,57 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                 ),
-                                controller: _tSobrenome,
-                                validator: _validateSobrenome,
-                                textInputAction: TextInputAction.next,
+                                controller: _tNum,
+                                validator: _validateNum,
+                                textInputAction: TextInputAction.done,
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          child: FadeAnimation(
+                            1.2,
+                            Container(
+                              width: 280,
+                              child: Text(
+                                "Complemento",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Center(
+                          child: FadeAnimation(
+                            1.5,
+                            Container(
+                              width: 280,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: "",
+                                  hintText: "Digite o complemento",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.black,
+                                    width: 2,
+                                  )),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                      width: 2,
+                                    ),
+                                  ),
+                                ),
+                                controller: _tComplemento,
+                                validator: _validateComplemento,
+                                textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.text,
                               ),
                             ),
@@ -195,7 +260,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Container(
                               width: 280,
                               child: Text(
-                                "CPF (opcional)",
+                                "Bairro",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
@@ -213,7 +278,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   labelText: "",
-                                  hintText: "Digite seu CPF",
+                                  hintText: "Digite o bairro",
                                   hintStyle: TextStyle(color: Colors.grey),
                                   border: OutlineInputBorder(),
                                   enabledBorder: OutlineInputBorder(
@@ -228,8 +293,56 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                 ),
-                                controller: _tCPF,
-                                validator: _validateCPF,
+                                controller: _tBairro,
+                                validator: _validateBairro,
+                                textInputAction: TextInputAction.done,
+                                keyboardType: TextInputType.text,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          child: FadeAnimation(
+                            1.2,
+                            Container(
+                              width: 280,
+                              child: Text(
+                                "CEP",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Center(
+                          child: FadeAnimation(
+                            1.5,
+                            Container(
+                              width: 280,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: "",
+                                  hintText: "Digite o CEP",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.black,
+                                    width: 2,
+                                  )),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                      width: 2,
+                                    ),
+                                  ),
+                                ),
+                                controller: _tCEP,
+                                validator: _validateCEP,
                                 textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.number,
                               ),
@@ -243,7 +356,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Container(
                               width: 280,
                               child: Text(
-                                "E-mail",
+                                "Estado / UF",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
@@ -261,7 +374,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   labelText: "",
-                                  hintText: "Digite seu e-mail",
+                                  hintText: "Digite o estado",
                                   hintStyle: TextStyle(color: Colors.grey),
                                   border: OutlineInputBorder(),
                                   enabledBorder: OutlineInputBorder(
@@ -276,10 +389,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                 ),
-                                controller: _tEmail,
-                                validator: _validateEmail,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.emailAddress,
+                                controller: _tEstado,
+                                validator: _validateEstado,
+                                textInputAction: TextInputAction.done,
+                                keyboardType: TextInputType.text,
                               ),
                             ),
                           ),
@@ -291,7 +404,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Container(
                               width: 280,
                               child: Text(
-                                "Celular",
+                                "Município",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
@@ -309,7 +422,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   labelText: "",
-                                  hintText: "Digite seu celular",
+                                  hintText: "Digite o município",
                                   hintStyle: TextStyle(color: Colors.grey),
                                   border: OutlineInputBorder(),
                                   enabledBorder: OutlineInputBorder(
@@ -324,63 +437,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                 ),
-                                controller: _tCelular,
-                                validator: _validateCelular,
+                                controller: _tMunicipio,
+                                validator: _validateMunicipio,
                                 textInputAction: TextInputAction.done,
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.text,
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
-                        Center(
-                          child: FadeAnimation(
-                            1.2,
-                            Container(
-                              width: 280,
-                              child: Text(
-                                "Nascimento",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Center(
-                          child: FadeAnimation(
-                            1.5,
-                            Container(
-                              width: 280,
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  labelText: "",
-                                  hintText: "Digite sua data de nascimento",
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                  border: OutlineInputBorder(),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                    color: Colors.black,
-                                    width: 2,
-                                  )),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.black,
-                                      width: 2,
-                                    ),
-                                  ),
-                                ),
-                                controller: _tNascimento,
-                                validator: _validateNascimento,
-                                textInputAction: TextInputAction.done,
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
                         Center(
                           child: Container(
                             width: 188,
@@ -413,42 +477,49 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  String _validateNome(String text) {
+  String _validateLogradouro(String text) {
     if (text.isEmpty) {
-      return "Digite seu nome";
+      return "Digite o logradouro";
     }
     return null;
   }
 
-  String _validateSobrenome(String text) {
+  String _validateNum(String text) {
     if (text.isEmpty) {
-      return "Digite seu sobrenome";
+      return "Digite o número";
     }
     return null;
   }
 
-  String _validateEmail(String text) {
+  String _validateBairro(String text) {
     if (text.isEmpty) {
-      return "Digite seu e-mail";
+      return "Digite o bairro";
     }
     return null;
   }
 
-  String _validateCelular(String text) {
+  String _validateCEP(String text) {
     if (text.isEmpty) {
-      return "Digite seu celular";
+      return "Digite o CEP";
     }
     return null;
   }
 
-  String _validateNascimento(String text) {
+  String _validateEstado(String text) {
     if (text.isEmpty) {
-      return "Digite sua data de nascimento";
+      return "Digite o estado / UF";
     }
     return null;
   }
 
-  String _validateCPF(String text) {
+  String _validateMunicipio(String text) {
+    if (text.isEmpty) {
+      return "Digite o município";
+    }
+    return null;
+  }
+
+  String _validateComplemento(String text) {
     return null;
   }
 }

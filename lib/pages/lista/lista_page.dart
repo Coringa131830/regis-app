@@ -7,11 +7,17 @@ class ListaPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Center(child: Icon(FontAwesomeIcons.tasks, size: 50,)),
-          Text("Lista Page body"),
+          Image.asset('assets/logos/logo_mini.png'),
+          SizedBox(height: 80),
+          Row(
+            children: [
+              SizedBox(width: 125),
+              Center(child: Image.asset('assets/images/lista.png')),
+            ],
+          ),
         ],
       ),
     );

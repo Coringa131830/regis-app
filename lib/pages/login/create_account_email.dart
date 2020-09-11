@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:smart_pantry/animation/fade_animation.dart';
-import 'package:smart_pantry/pages/api_response.dart';
+import 'package:smart_pantry/pages/login/create_account_pass.dart';
 import 'package:smart_pantry/pages/login/email_page.dart';
-import 'package:smart_pantry/pages/login/login_bloc.dart';
-import 'package:smart_pantry/utils/alert.dart';
 import 'package:smart_pantry/utils/nav.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
+class CreateAccountEmail extends StatefulWidget {
   @override
-  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
+  _CreateAccountEmailState createState() => _CreateAccountEmailState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+class _CreateAccountEmailState extends State<CreateAccountEmail> {
   final _tLogin = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-
-  final _bloc = LoginBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +41,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       Container(
                         width: 280,
                         child: Text(
-                          "Digite seu e-mail e enviaremos um link para redefinir sua senha",
+                          "Digite seu e-mail para criar uma conta.",
                           style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500
-                          ),
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -93,34 +88,29 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     child: FadeAnimation(
                       1.5,
                       Container(
-                        height: 50,
-                        width: 280,
-                        child: StreamBuilder<bool>(
-                            stream: _bloc.stream,
-                            initialData: false,
-                            builder: (context, snapshot) {
-                              return RaisedButton(
-                                color: Colors.red,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(17),
-                                ),
-                                onPressed: _onClickReset,
-                                child: snapshot.data
-                                    ? CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation(
-                                            Colors.white),
-                                      )
-                                    : Text(
-                                        "CONTINUAR",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                              );
-                            }),
-                      ),
+                          height: 50,
+                          width: 280,
+                          child: RaisedButton(
+                            color: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(17),
+                            ),
+                            onPressed: (){
+                              if(!_formKey.currentState.validate()) {
+                                return;
+                              }
+                              String email = _tLogin.text;
+                              push(context, CreateAccountPass(email));
+                            },
+                            child: Text(
+                              "CONTINUAR",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                          )),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -135,7 +125,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             push(context, EmailPage(), replace: true);
                           },
                           child: Text(
-                            "Lembrei minha senha",
+                            "Já tenho uma conta",
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,
@@ -160,21 +150,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       return "Digite seu e-mail";
     } else {
       return null;
-    }
-  }
-
-  void _onClickReset() async {
-    if (!_formKey.currentState.validate()) {
-      return;
-    }
-    String email = _tLogin.text;
-
-    ApiResponse response = await _bloc.reset(email);
-
-    if (response.ok) {
-      push(context, EmailPage(), replace: true);
-    } else {
-      alert(context, response.msg);
     }
   }
 }
