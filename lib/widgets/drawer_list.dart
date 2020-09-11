@@ -10,7 +10,6 @@ import 'package:smart_pantry/utils/nav.dart';
 import 'package:smart_pantry/utils/prefs.dart';
 
 class DrawerList extends StatefulWidget {
-
   Color colorBegin;
   Color colorEnd;
 
@@ -21,8 +20,6 @@ class DrawerList extends StatefulWidget {
 }
 
 class _DrawerListState extends State<DrawerList> {
-
-
   String url_foto;
 
   UserAccountsDrawerHeader _header() {
@@ -95,7 +92,11 @@ class _DrawerListState extends State<DrawerList> {
               },
             ),
             ListTile(
-              leading: Image.asset('assets/icons/home.png',width: 36,color: Colors.black,),
+              leading: Image.asset(
+                'assets/icons/home.png',
+                width: 36,
+                color: Colors.black,
+              ),
               title: Text("Início"),
               onTap: () {
                 Prefs.setInt("idx", 0);
@@ -105,7 +106,11 @@ class _DrawerListState extends State<DrawerList> {
               },
             ),
             ListTile(
-              leading: Image.asset('assets/icons/comparador.png',width: 36,color: Colors.black,),
+              leading: Image.asset(
+                'assets/icons/comparador.png',
+                width: 36,
+                color: Colors.black,
+              ),
               title: Text("Comparador"),
               onTap: () {
                 Prefs.setString("title", "Comparador de preços");
@@ -115,7 +120,11 @@ class _DrawerListState extends State<DrawerList> {
               },
             ),
             ListTile(
-              leading: Image.asset('assets/icons/lista.png',width: 36,color: Colors.black,),
+              leading: Image.asset(
+                'assets/icons/lista.png',
+                width: 36,
+                color: Colors.black,
+              ),
               title: Text("Lista de compras"),
               onTap: () {
                 Prefs.setString("title", "Lista de compras");
@@ -125,7 +134,11 @@ class _DrawerListState extends State<DrawerList> {
               },
             ),
             ListTile(
-              leading: Image.asset('assets/icons/gastos.png',width: 36,color: Colors.black,),
+              leading: Image.asset(
+                'assets/icons/gastos.png',
+                width: 36,
+                color: Colors.black,
+              ),
               title: Text("Controle de gastos"),
               onTap: () {
                 Prefs.setString("title", "Controle de gastos");
@@ -135,7 +148,11 @@ class _DrawerListState extends State<DrawerList> {
               },
             ),
             ListTile(
-              leading: Image.asset('assets/icons/despensa.png',width: 36,color: Colors.black,),
+              leading: Image.asset(
+                'assets/icons/despensa.png',
+                width: 36,
+                color: Colors.black,
+              ),
               title: Text("Despensa"),
               onTap: () {
                 Prefs.setString("title", "Despensa");
@@ -147,7 +164,10 @@ class _DrawerListState extends State<DrawerList> {
             ListTile(
               leading: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.logout, color: Colors.black,),
+                child: Icon(
+                  Icons.logout,
+                  color: Colors.black,
+                ),
               ),
               title: Text("Logout"),
               onTap: _onClickLogout,

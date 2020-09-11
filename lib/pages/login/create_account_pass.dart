@@ -18,7 +18,6 @@ class CreateAccountPass extends StatefulWidget {
 }
 
 class _CreateAccountPassState extends State<CreateAccountPass> {
-
   String get email => widget.email;
 
   final _tSenha = TextEditingController();
@@ -78,9 +77,9 @@ class _CreateAccountPassState extends State<CreateAccountPass> {
                             border: OutlineInputBorder(),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.black,
-                                  width: 2,
-                                )),
+                              color: Colors.black,
+                              width: 2,
+                            )),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Colors.black,
@@ -115,17 +114,17 @@ class _CreateAccountPassState extends State<CreateAccountPass> {
                                   onPressed: _onClickCreate,
                                   child: snapshot.data
                                       ? CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation(
-                                        Colors.white),
-                                  )
+                                          valueColor: AlwaysStoppedAnimation(
+                                              Colors.white),
+                                        )
                                       : Text(
-                                    "CONTINUAR",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
-                                  ),
+                                          "CONTINUAR",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        ),
                                 );
                               })),
                     ),
@@ -180,7 +179,7 @@ class _CreateAccountPassState extends State<CreateAccountPass> {
 
     if (createResponse.ok) {
       ApiResponse loginResponse = await _bloc.login(email, senha);
-      if(loginResponse.ok) {
+      if (loginResponse.ok) {
         push(context, InitialPage(), replace: true);
       } else {
         alert(context, loginResponse.msg);

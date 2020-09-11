@@ -32,8 +32,12 @@ class _EmailPageState extends State<EmailPage> {
                 children: [
                   SizedBox(height: 80),
                   Center(
-                    child: FadeAnimation(1.2,
-                        Center(child: Image.asset('assets/logos/logo.png'))),
+                    child: FadeAnimation(
+                      1.2,
+                      Center(
+                        child: Image.asset('assets/logos/logo.png'),
+                      ),
+                    ),
                   ),
                   SizedBox(height: 20),
                   Center(

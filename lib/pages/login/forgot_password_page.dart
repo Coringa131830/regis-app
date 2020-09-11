@@ -47,10 +47,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         child: Text(
                           "Digite seu e-mail e enviaremos um link para redefinir sua senha",
                           style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500
-                          ),
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
                           textAlign: TextAlign.center,
                         ),
                       ),

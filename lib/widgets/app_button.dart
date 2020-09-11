@@ -24,19 +24,19 @@ class AppButton extends StatelessWidget {
                 ),
               )
             : Center(
-              child: Text(
+                child: Text(
                   text,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                   ),
                 ),
-            ),
-        color: Colors.orangeAccent,//Color(0xff5AC8AE),
+              ),
+        color: Colors.orangeAccent,
+        //Color(0xff5AC8AE),
         textColor: Color(0xffFFFFFF),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10))
-        ),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
       ),
     );
   }

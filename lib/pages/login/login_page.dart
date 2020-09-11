@@ -145,40 +145,41 @@ class _LoginPageState extends State<LoginPage> {
                           height: 40,
                         ),
                         FadeAnimation(
-                            1.6,
-                            Container(
-                              height: 50,
-                              margin: EdgeInsets.symmetric(horizontal: 50),
-                              child: StreamBuilder<bool>(
-                                  stream: _bloc.stream,
-                                  initialData: false,
-                                  builder: (context, snapshot) {
-                                    return RaisedButton(
-                                      color: Colors.red[900],
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      onPressed: _signInWithEmailAndPassword,
-                                      child: Center(
-                                        child: snapshot.data
-                                            ? CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation(
-                                                  Colors.white,
-                                                ),
-                                              )
-                                            : Text(
-                                                "Login",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                      ),
-                                    );
-                                  }),
-                            )),
+                          1.6,
+                          Container(
+                            height: 50,
+                            margin: EdgeInsets.symmetric(horizontal: 50),
+                            child: StreamBuilder<bool>(
+                              stream: _bloc.stream,
+                              initialData: false,
+                              builder: (context, snapshot) {
+                                return RaisedButton(
+                                  color: Colors.red[900],
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  onPressed: _signInWithEmailAndPassword,
+                                  child: Center(
+                                    child: snapshot.data
+                                        ? CircularProgressIndicator(
+                                            valueColor: AlwaysStoppedAnimation(
+                                              Colors.white,
+                                            ),
+                                          )
+                                        : Text(
+                                            "Login",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: 30,
                         ),

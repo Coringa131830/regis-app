@@ -34,10 +34,11 @@ class _AtualizarContaPageState extends State<AtualizarContaPage> {
       appBar: AppBar(
         actions: [
           IconButton(
-              icon: Icon(Icons.notifications_outlined),
-              onPressed: () {
-                push(context, NotificationsPage(), replace: true);
-              })
+            icon: Icon(Icons.notifications_outlined),
+            onPressed: () {
+              push(context, NotificationsPage(), replace: true);
+            },
+          ),
         ],
         title: Text("Atualização da conta"),
         centerTitle: true,

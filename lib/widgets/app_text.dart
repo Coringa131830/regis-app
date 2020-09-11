@@ -18,25 +18,24 @@ class AppText extends StatelessWidget {
 
   bool center;
 
-  AppText(this.label,
-      this.hint, {
-        this.password = false,
-        this.controller,
-        this.validator,
-        this.keyboardType,
-        this.inputAction,
-        this.focusNode,
-        this.nextFocus,
-        this.maxLines = 1,
-        this.inputFormatters,
-        this.center = false,
-      });
+  AppText(
+    this.label,
+    this.hint, {
+    this.password = false,
+    this.controller,
+    this.validator,
+    this.keyboardType,
+    this.inputAction,
+    this.focusNode,
+    this.nextFocus,
+    this.maxLines = 1,
+    this.inputFormatters,
+    this.center = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-
-
       textAlign: center == true ? TextAlign.center : TextAlign.start,
       inputFormatters: inputFormatters ?? [],
       controller: controller,

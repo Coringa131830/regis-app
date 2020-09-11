@@ -41,13 +41,15 @@ class FirebaseService {
     } on FirebaseAuthException catch (e) {
       print(" >>> CODE : ${e.code}\n>>> ERRO : $e");
       return ApiResponse.error(
-          msg: "Não foi possível enviar o e-mail para redefinir a senha, tente novamente!");
+          msg:
+              "Não foi possível enviar o e-mail para redefinir a senha, tente novamente!");
     }
   }
 
   Future<ApiResponse> create(String email, String senha) async {
     try {
-      final response = await _auth.createUserWithEmailAndPassword(email: email, password: senha);
+      final response = await _auth.createUserWithEmailAndPassword(
+          email: email, password: senha);
       print("Create acc >>> ${response.toString()}");
       return ApiResponse.ok();
     } on FirebaseAuthException catch (e) {

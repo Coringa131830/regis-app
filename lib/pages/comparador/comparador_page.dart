@@ -20,10 +20,12 @@ class _ComparePageState extends State<ComparePage> {
           SizedBox(height: 80),
           InkWell(
             child: Center(
-              child: isVisible ? Image.asset('assets/images/comparador.png') : Container(),
+              child: isVisible
+                  ? Image.asset('assets/images/comparador.png')
+                  : Container(),
             ),
-            onTap: (){
-              if(isVisible) {
+            onTap: () {
+              if (isVisible) {
                 setState(() {
                   isVisible = false;
                 });

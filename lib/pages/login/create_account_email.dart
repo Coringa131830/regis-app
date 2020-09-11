@@ -95,8 +95,8 @@ class _CreateAccountEmailState extends State<CreateAccountEmail> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(17),
                             ),
-                            onPressed: (){
-                              if(!_formKey.currentState.validate()) {
+                            onPressed: () {
+                              if (!_formKey.currentState.validate()) {
                                 return;
                               }
                               String email = _tLogin.text;

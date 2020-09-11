@@ -14,7 +14,7 @@ alert(BuildContext context, String msg, {Function callback}) {
             FlatButton(
               child: Text("OK"),
               onPressed: () {
-                if(callback != null) {
+                if (callback != null) {
                   callback();
                 }
                 Navigator.pop(context);

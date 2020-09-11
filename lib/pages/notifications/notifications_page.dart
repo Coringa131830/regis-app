@@ -28,7 +28,6 @@ class NotificationsPage extends StatelessWidget {
   }
 
   _body() {
-
     return Container(
       padding: EdgeInsets.all(16),
       child: Column(

@@ -173,7 +173,7 @@ class _SenhaPageState extends State<SenhaPage> {
 
     ApiResponse response = await _bloc.login(email, senha);
 
-    if(response.ok) {
+    if (response.ok) {
       push(context, InitialPage(), replace: true);
     } else {
       alert(context, response.msg);

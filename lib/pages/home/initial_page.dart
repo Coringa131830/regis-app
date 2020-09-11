@@ -62,7 +62,7 @@ class _InitialPageState extends State<InitialPage> {
         colorController.add([colorBeginRed, colorEndYellow]);
         drawerController.add([colorBeginRed, colorEndYellow]);
         Prefs.getString("title").then((titulo) => titleController.add(titulo));
-        setState(() {});
+
         return HomePage();
 
         break;
@@ -72,7 +72,7 @@ class _InitialPageState extends State<InitialPage> {
         widget.colorEnd = colorEndGreen;
         colorController.add([colorBeginBlue, colorEndGreen]);
         drawerController.add([colorBeginBlue, colorEndGreen]);
-        setState(() {});
+
         Prefs.getString("title").then((titulo) => titleController.add(titulo));
         return ComparePage();
         break;
@@ -85,13 +85,9 @@ class _InitialPageState extends State<InitialPage> {
         break;
       case 3:
         Prefs.setString("title", "Controle de gastos");
-        setState(() {
-          widget.colorBegin = colorBeginBlue;
-          widget.colorEnd = colorEndGreen;
-          colorController.add([colorBeginBlue, colorEndGreen]);
-          drawerController.add([colorBeginBlue, colorEndGreen]);
-          setState(() {});
-        });
+
+        colorController.add([colorBeginBlue, colorEndGreen]);
+        drawerController.add([colorBeginBlue, colorEndGreen]);
 
         Prefs.getString("title").then((titulo) => titleController.add(titulo));
         return GastosPage();
@@ -135,26 +131,19 @@ class _InitialPageState extends State<InitialPage> {
               return Text(snapshot.data ?? "Smart Pantry");
             }),
         flexibleSpace: StreamBuilder<List<Color>>(
-            stream: colorController.stream,
-            initialData: [colorBeginRed, colorEndYellow],
-            builder: (context, snapshot) {
-              return Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: snapshot.data
-                      /*<Color>[
-                    */ /*Colors.redAccent,
-            Colors.orangeAccent,*/ /*
-
-                    widget.colorBegin,
-                    widget.colorEnd,
-                  ],*/
-                      ),
-                ),
-              );
-            }),
+          stream: colorController.stream,
+          initialData: [colorBeginRed, colorEndYellow],
+          builder: (context, snapshot) {
+            return Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: snapshot.data),
+              ),
+            );
+          },
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.notifications_outlined),
