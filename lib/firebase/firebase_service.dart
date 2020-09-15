@@ -46,6 +46,7 @@ class FirebaseService {
     }
   }
 
+
   Future<ApiResponse> create(String email, String senha) async {
     try {
       final response = await _auth.createUserWithEmailAndPassword(

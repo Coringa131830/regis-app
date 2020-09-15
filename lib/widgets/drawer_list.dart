@@ -62,7 +62,7 @@ class _DrawerListState extends State<DrawerList> {
           ],
         ),
         onTap: () {
-          push(context, ProfilePage(), replace: true);
+          push(context, ProfilePage());
         },
       ),
       /*currentAccountPicture: CircleAvatar(
@@ -88,7 +88,7 @@ class _DrawerListState extends State<DrawerList> {
               onTap: () {
                 Prefs.setInt("idx", 0);
                 pop(context);
-                push(context, AtualizarContaPage(), replace: true);
+                push(context, AtualizarContaPage());
               },
             ),
             ListTile(
@@ -102,7 +102,7 @@ class _DrawerListState extends State<DrawerList> {
                 Prefs.setInt("idx", 0);
                 Prefs.setString("title", "Smart Pantry");
                 pop(context);
-                push(context, InitialPage(), replace: true);
+                push(context, InitialPage());
               },
             ),
             ListTile(
@@ -116,7 +116,7 @@ class _DrawerListState extends State<DrawerList> {
                 Prefs.setString("title", "Comparador de preços");
                 Prefs.setInt("idx", 1);
                 pop(context);
-                push(context, InitialPage(), replace: true);
+                push(context, InitialPage());
               },
             ),
             ListTile(
@@ -130,7 +130,7 @@ class _DrawerListState extends State<DrawerList> {
                 Prefs.setString("title", "Lista de compras");
                 Prefs.setInt("idx", 2);
                 pop(context);
-                push(context, InitialPage(), replace: true);
+                push(context, InitialPage());
               },
             ),
             ListTile(
@@ -144,7 +144,7 @@ class _DrawerListState extends State<DrawerList> {
                 Prefs.setString("title", "Controle de gastos");
                 Prefs.setInt("idx", 3);
                 pop(context);
-                push(context, InitialPage(), replace: true);
+                push(context, InitialPage());
               },
             ),
             ListTile(
@@ -158,7 +158,7 @@ class _DrawerListState extends State<DrawerList> {
                 Prefs.setString("title", "Despensa");
                 Prefs.setInt("idx", 4);
                 pop(context);
-                push(context, InitialPage(), replace: true);
+                push(context, InitialPage());
               },
             ),
             ListTile(
@@ -182,6 +182,6 @@ class _DrawerListState extends State<DrawerList> {
     pop(context);
     Prefs.setInt("idx", null);
     await FirebaseService().logout();
-    push(context, EmailPage(), replace: true);
+    push(context, EmailPage());
   }
 }

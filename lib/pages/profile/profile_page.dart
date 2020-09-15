@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:smart_pantry/animation/fade_animation.dart';
 import 'package:smart_pantry/pages/notifications/notifications_page.dart';
 import 'package:smart_pantry/utils/consts.dart';
@@ -23,6 +24,18 @@ class _ProfilePageState extends State<ProfilePage> {
   final _tCelular = TextEditingController();
 
   final _tNascimento = TextEditingController();
+
+  var idadeMaskFormatter = new MaskTextInputFormatter(mask: '##/##/####', filter: {
+    "#": RegExp(r'[0-9]'),
+  });
+
+  var phoneMaskFormatter = new MaskTextInputFormatter(mask: '(##) # ####-####', filter: {
+    "#": RegExp(r'[0-9]'),
+  });
+
+  var cpfMaskFormatter = new MaskTextInputFormatter(mask: '###.###.###-##', filter: {
+    "#": RegExp(r'[0-9]'),
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -212,6 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Container(
                               width: 280,
                               child: TextFormField(
+                                inputFormatters: [cpfMaskFormatter],
                                 decoration: InputDecoration(
                                   labelText: "",
                                   hintText: "Digite seu CPF",
@@ -308,6 +322,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Container(
                               width: 280,
                               child: TextFormField(
+                                inputFormatters: [phoneMaskFormatter],
                                 decoration: InputDecoration(
                                   labelText: "",
                                   hintText: "Digite seu celular",
@@ -377,6 +392,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 validator: _validateNascimento,
                                 textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [idadeMaskFormatter],
                               ),
                             ),
                           ),

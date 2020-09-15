@@ -34,7 +34,7 @@ class NotificationsPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Image.asset('assets/logos/logo_mini.png'),
+          Image.asset('assets/logos/mini_logo.png', width: 100,),
           SizedBox(height: 50),
           Center(
             child: Image.asset('assets/images/notifications.png'),
