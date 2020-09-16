@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -25,6 +26,8 @@ class _InitialPageState extends State<InitialPage> {
   int _currentIdx = 0;
 
   String title;
+
+  bool isIOS = Platform.isIOS;
 
   final titleController = StreamController<String>();
 
@@ -146,7 +149,7 @@ class _InitialPageState extends State<InitialPage> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications_outlined),
+            icon: Icon(Icons.notifications),
             onPressed: () {
               push(context, NotificationsPage());
             },
@@ -168,7 +171,8 @@ class _InitialPageState extends State<InitialPage> {
               Icons.home,
               color: Colors.lightBlueAccent,
             ),
-            label: "Início",
+            title: Text("Início"),
+            // label: "Início",
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
@@ -180,7 +184,8 @@ class _InitialPageState extends State<InitialPage> {
               'assets/images/comparador.png',
               width: 25,
             ),
-            label: "Comparador",
+            title: Text("Comparador"),
+            // label: "Comparador",
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
@@ -192,7 +197,8 @@ class _InitialPageState extends State<InitialPage> {
               'assets/images/lista.png',
               width: 25,
             ),
-            label: "Lista de compras",
+            title: Text("Lista de compras"),
+            // label: "Lista de compras",
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
@@ -204,7 +210,8 @@ class _InitialPageState extends State<InitialPage> {
               'assets/images/gastos.png',
               width: 25,
             ),
-            label: "Controle de gastos",
+            title: Text("Controle de gastos"),
+            // label: "Controle de gastos",
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
@@ -216,7 +223,8 @@ class _InitialPageState extends State<InitialPage> {
               'assets/images/despensa.png',
               width: 25,
             ),
-            label: "Despensa",
+            title: Text("Despensa"),
+            // label: "Despensa",
           ),
         ],
       ),
