@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:smart_pantry/animation/fade_animation.dart';
-import 'package:smart_pantry/pages/login/create_account_pass.dart';
+import 'package:smart_pantry/pages/api_response.dart';
 import 'package:smart_pantry/pages/login/email_page.dart';
+import 'package:smart_pantry/pages/login/login_bloc.dart';
+import 'package:smart_pantry/utils/alert.dart';
 import 'package:smart_pantry/utils/nav.dart';
 
 class CreateAccountEmail extends StatefulWidget {
@@ -13,6 +15,8 @@ class _CreateAccountEmailState extends State<CreateAccountEmail> {
   final _tLogin = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  final _bloc = LoginBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -87,30 +91,37 @@ class _CreateAccountEmailState extends State<CreateAccountEmail> {
                   Center(
                     child: FadeAnimation(
                       1.5,
-                      Container(
-                          height: 50,
-                          width: 280,
-                          child: RaisedButton(
-                            color: Colors.red,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(17),
-                            ),
-                            onPressed: () {
-                              if (!_formKey.currentState.validate()) {
-                                return;
-                              }
-                              String email = _tLogin.text;
-                              push(context, CreateAccountPass(email));
-                            },
-                            child: Text(
-                              "CONTINUAR",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                          )),
+                      StreamBuilder<bool>(
+                          stream: _bloc.stream,
+                          initialData: false,
+                          builder: (context, snapshot) {
+                            return Container(
+                                height: 50,
+                                width: 280,
+                                child: RaisedButton(
+                                  color: Colors.red,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(17),
+                                  ),
+                                  onPressed: _onClickCreate,
+                                  child: snapshot.data
+                                      ? Center(
+                                          child: CircularProgressIndicator(
+                                            valueColor:
+                                                new AlwaysStoppedAnimation(
+                                                    Colors.white),
+                                          ),
+                                        )
+                                      : Text(
+                                          "CONTINUAR",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                ));
+                          }),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -150,6 +161,24 @@ class _CreateAccountEmailState extends State<CreateAccountEmail> {
       return "Digite seu e-mail";
     } else {
       return null;
+    }
+  }
+
+  void _onClickCreate() async {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    String email = _tLogin.text;
+
+    ApiResponse response = await _bloc.create(email);
+
+    if (response.ok) {
+      alert(context, "Uma senha foi enviada para o seu email", callback: () {
+        pop(context);
+      });
+    } else {
+      alert(context,
+          response.msg ?? "Não foi possível criar sua conta, tente novamente!");
     }
   }
 }

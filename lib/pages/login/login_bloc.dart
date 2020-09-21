@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:smart_pantry/firebase/firebase_service.dart';
 import 'package:smart_pantry/pages/api_response.dart';
+import 'package:smart_pantry/pages/login/login_api.dart';
 import 'package:smart_pantry/utils/simple_bloc.dart';
 
 class LoginBloc extends SimpleBloc<bool> {
@@ -25,10 +26,10 @@ class LoginBloc extends SimpleBloc<bool> {
     return response;
   }
 
-  Future<ApiResponse> create(String email, String senha) async {
+  Future<ApiResponse> create(String email) async {
     add(true);
 
-    ApiResponse response = await FirebaseService().create(email, senha);
+    ApiResponse response = await LoginApi.create(email);
 
     add(false);
 

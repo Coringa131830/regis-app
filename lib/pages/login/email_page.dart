@@ -150,7 +150,7 @@ class _EmailPageState extends State<EmailPage> {
                         alignment: Alignment.centerRight,
                         child: InkWell(
                           onTap: () {
-                            push(context, CreateAccountEmail(), replace: true);
+                            push(context, CreateAccountEmail());
                           },
                           child: Text(
                             "Criar conta",
