@@ -45,7 +45,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       Container(
                         width: 280,
                         child: Text(
-                          "Digite seu e-mail e enviaremos um link para redefinir sua senha",
+                          "Digite seu e-mail e enviaremos uma nova senha para você",
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 18,
@@ -168,7 +168,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     }
     String email = _tLogin.text;
 
-    ApiResponse response = await _bloc.reset(email);
+    ApiResponse response = await _bloc.reset(email, context);
 
     if (response.ok) {
       push(context, EmailPage(), replace: true);

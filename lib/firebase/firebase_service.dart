@@ -15,7 +15,7 @@ class FirebaseService {
 
       // Cria um usuario do app
       final user = Usuario(
-          nome: fUser.displayName, email: fUser.email, foto: fUser.photoURL);
+          nome: fUser.displayName, email: fUser.email);
       user.save();
 
       // Resposta genérica

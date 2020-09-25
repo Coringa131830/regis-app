@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:smart_pantry/pages/comparador/comparador_page.dart';
@@ -8,6 +10,7 @@ import 'package:smart_pantry/pages/despensa/despensa_page.dart';
 import 'package:smart_pantry/pages/gastos/gastos_page.dart';
 import 'package:smart_pantry/pages/home/home_page.dart';
 import 'package:smart_pantry/pages/lista/lista_page.dart';
+import 'package:smart_pantry/pages/login/create_profile.dart';
 import 'package:smart_pantry/pages/notifications/notifications_page.dart';
 import 'package:smart_pantry/utils/consts.dart';
 import 'package:smart_pantry/utils/nav.dart';
@@ -35,6 +38,10 @@ class _InitialPageState extends State<InitialPage> {
 
   final drawerController = BehaviorSubject<List<Color>>();
 
+  FirebaseFirestore _firestore;
+
+  User user;
+
   Stream<List<Color>> get drawerStream => drawerController.stream;
 
   _initBar() async {
@@ -52,6 +59,14 @@ class _InitialPageState extends State<InitialPage> {
   @override
   void initState() {
     super.initState();
+
+    _firestore = FirebaseFirestore.instance;
+
+    user = FirebaseAuth.instance.currentUser;
+
+    if (FirebaseFirestore.instance.collection("users").doc(user.uid) == null) {
+      push(context, CreateProfile(), replace: true);
+    }
 
     _initBar();
   }

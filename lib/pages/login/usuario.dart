@@ -4,35 +4,68 @@ import 'package:smart_pantry/utils/prefs.dart';
 
 class Usuario {
   String nome;
-  String email;
-  String telefone;
-  String senha;
+  String sobrenome;
   String cpf;
-  String foto;
+  String email;
+  String celular;
+  String nascimento;
+  String logradouro;
+  String numero;
+  String complemento;
+  String bairro;
+  String cep;
+  String uf;
+  String municipio;
 
   Usuario(
-      {this.nome, this.email, this.telefone, this.senha, this.cpf, this.foto});
+      {this.nome,
+        this.sobrenome,
+        this.cpf,
+        this.email,
+        this.celular,
+        this.nascimento,
+        this.logradouro,
+        this.numero,
+        this.complemento,
+        this.bairro,
+        this.cep,
+        this.uf,
+        this.municipio});
 
   Usuario.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
-    email = json['email'];
-    telefone = json['telefone'];
-    senha = json['senha'];
+    sobrenome = json['sobrenome'];
     cpf = json['cpf'];
-    foto = json['foto'];
+    email = json['email'];
+    celular = json['celular'];
+    nascimento = json['nascimento'];
+    logradouro = json['logradouro'];
+    numero = json['numero'];
+    complemento = json['complemento'];
+    bairro = json['bairro'];
+    cep = json['cep'];
+    uf = json['uf'];
+    municipio = json['municipio'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['nome'] = this.nome;
-    data['email'] = this.email;
-    data['telefone'] = this.telefone;
-    data['senha'] = this.senha;
+    data['sobrenome'] = this.sobrenome;
     data['cpf'] = this.cpf;
-    data['foto'] = this.foto;
-
+    data['email'] = this.email;
+    data['celular'] = this.celular;
+    data['nascimento'] = this.nascimento;
+    data['logradouro'] = this.logradouro;
+    data['numero'] = this.numero;
+    data['complemento'] = this.complemento;
+    data['bairro'] = this.bairro;
+    data['cep'] = this.cep;
+    data['uf'] = this.uf;
+    data['municipio'] = this.municipio;
     return data;
   }
+
 
   static void clear() {
     Prefs.setString("user.prefs", "");

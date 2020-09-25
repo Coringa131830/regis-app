@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_pantry/pages/login/usuario.dart';
 
 class ComparePage extends StatefulWidget {
   @override
@@ -7,6 +8,19 @@ class ComparePage extends StatefulWidget {
 
 class _ComparePageState extends State<ComparePage> {
   bool isVisible = true;
+
+  Usuario user;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future futureUser = Usuario.get();
+
+    Future.wait([futureUser]).then((value) {
+      user = value[0];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +51,7 @@ class _ComparePageState extends State<ComparePage> {
                     : Container(),
               ),
               onTap: () {
+
                 if (isVisible) {
                   setState(() {
                     isVisible = false;

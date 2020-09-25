@@ -170,7 +170,7 @@ class _CreateAccountEmailState extends State<CreateAccountEmail> {
     }
     String email = _tLogin.text;
 
-    ApiResponse response = await _bloc.create(email);
+    ApiResponse response = await _bloc.create(email, context);
 
     if (response.ok) {
       alert(context, "Uma senha foi enviada para o seu email", callback: () {
