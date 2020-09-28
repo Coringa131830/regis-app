@@ -1,12 +1,8 @@
 import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
-import 'package:smart_pantry/firebase/firebase_service.dart';
 import 'package:smart_pantry/pages/api_response.dart';
-import 'package:smart_pantry/pages/home/initial_page.dart';
 import 'package:smart_pantry/pages/login/usuario.dart';
-import 'package:smart_pantry/utils/nav.dart';
 
 class LoginApi {
   static Future<ApiResponse<Usuario>> create(String email, context) async {
@@ -31,9 +27,9 @@ class LoginApi {
       print(response.body);
 
       if (response.statusCode == 200) {
-        
-        if(response.body.contains("auth/email-already-in-use")) {
-          return ApiResponse.error(msg: "O e-mail informado já está em uso por outra conta.");
+        if (response.body.contains("auth/email-already-in-use")) {
+          return ApiResponse.error(
+              msg: "O e-mail informado já está em uso por outra conta.");
         }
         final user = Usuario.fromJson(mapResponse);
         user.save();
@@ -43,11 +39,13 @@ class LoginApi {
       return ApiResponse.error(msg: mapResponse["erro"]);
     } catch (error) {
       print("ERRO >>>>>> $error");
-      return ApiResponse.error(msg: "Não foi possivel criar sua conta, tente novamente.");
+      return ApiResponse.error(
+          msg: "Não foi possivel criar sua conta, tente novamente.");
     }
   }
 
-  static Future<ApiResponse<Usuario>> resetPassword(String email, context) async {
+  static Future<ApiResponse<Usuario>> resetPassword(
+      String email, context) async {
     try {
       var url = 'https://regis-app.herokuapp.com/user/redefine';
 
@@ -64,20 +62,18 @@ class LoginApi {
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
 
-      Map mapResponse = json.decode(response.body);
-
       print(response.body);
 
       if (response.statusCode == 200) {
-        final user = Usuario.fromJson(mapResponse);
-        user.save();
-        return ApiResponse.ok(result: user);
+        return ApiResponse.ok();
       }
 
-      return ApiResponse.error(msg: mapResponse["erro"]);
+      return ApiResponse.error(
+          msg: "Não foi possível gerar sua nova senha, tente novamente.");
     } catch (error) {
       print("ERRO >>>>>> $error");
-      return ApiResponse.error(msg: "Não foi possivel gerar sua nova senha, tente novamente.");
+      return ApiResponse.error(
+          msg: "Não foi possivel gerar sua nova senha, tente novamente.");
     }
   }
 }

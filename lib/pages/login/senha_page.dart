@@ -89,6 +89,7 @@ class _SenhaPageState extends State<SenhaPage> {
                           validator: _validateSenha,
                           textInputAction: TextInputAction.done,
                           keyboardType: TextInputType.emailAddress,
+                          obscureText: true,
                         ),
                       ),
                     ),
