@@ -31,6 +31,14 @@ class LoginApi {
           return ApiResponse.error(
               msg: "O e-mail informado já está em uso por outra conta.");
         }
+        if (response.body.contains("The email address is badly formatted")) {
+          return ApiResponse.error(
+              msg: "Verifique o e-mail informado e tente novamente.");
+        }
+        if (response.body.contains("auth/internal-error")) {
+          return ApiResponse.error(
+              msg: "Ocorreu um erro ao criar sua conta, tente novamente.");
+        }
         final user = Usuario.fromJson(mapResponse);
         user.save();
         return ApiResponse.ok(result: user);
@@ -65,6 +73,16 @@ class LoginApi {
       print(response.body);
 
       if (response.statusCode == 200) {
+
+        if (response.body.contains("The email address is badly formatted")) {
+          return ApiResponse.error(
+              msg: "Verifique o e-mail informado e tente novamente.");
+        }
+        if (response.body.contains("auth/internal-error")) {
+          return ApiResponse.error(
+              msg: "Ocorreu um erro ao gerar sua nova senha, tente novamente.");
+        }
+
         return ApiResponse.ok();
       }
 
