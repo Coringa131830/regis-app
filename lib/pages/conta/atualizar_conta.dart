@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:smart_pantry/animation/fade_animation.dart';
 import 'package:smart_pantry/pages/home/initial_page.dart';
-import 'package:smart_pantry/pages/login/usuario.dart';
 import 'package:smart_pantry/pages/notifications/notifications_page.dart';
 import 'package:smart_pantry/utils/alert.dart';
 import 'package:smart_pantry/utils/consts.dart';
@@ -33,6 +33,11 @@ class _AtualizarContaPageState extends State<AtualizarContaPage> {
 
   final _formKey = GlobalKey<FormState>();
 
+  final cepMaskFormatter =
+      new MaskTextInputFormatter(mask: '#####-###', filter: {
+    "#": RegExp(r'[0-9]'),
+  });
+
   @override
   void initState() {
     super.initState();
@@ -47,17 +52,18 @@ class _AtualizarContaPageState extends State<AtualizarContaPage> {
         .doc(user.uid)
         .get()
         .then((value) {
-      Usuario data = Usuario.fromJson(value.data());
+      var data = value.data();
 
-      _tLogradouro.text = data.logradouro ?? "";
+      if (data != null && !data.isEmpty) {
+        _tLogradouro.text = data['logradouro'] ?? "";
 
-      _tNum.text = data.numero ?? "";
-      _tCEP.text = data.cep ?? "";
-      _tMunicipio.text = data.municipio ?? "";
-      _tEstado.text = data.uf ?? "";
-      _tBairro.text = data.bairro ?? "";
-      _tComplemento.text = data.complemento ?? "";
-      // setState(() {});
+        _tNum.text = data['numero'] ?? "";
+        _tCEP.text = data['cep'] ?? "";
+        _tMunicipio.text = data['municipio'] ?? "";
+        _tEstado.text = data['uf'] ?? "";
+        _tBairro.text = data['bairro'] ?? "";
+        _tComplemento.text = data['complemento'] ?? "";
+      }
     });
 
     return Scaffold(
@@ -185,7 +191,7 @@ class _AtualizarContaPageState extends State<AtualizarContaPage> {
                                   ),
                                   controller: _tLogradouro,
                                   validator: _validateLogradouro,
-                                  textInputAction: TextInputAction.done,
+                                  textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
                                 ),
                               ),
@@ -233,7 +239,7 @@ class _AtualizarContaPageState extends State<AtualizarContaPage> {
                                   ),
                                   controller: _tNum,
                                   validator: _validateNum,
-                                  textInputAction: TextInputAction.done,
+                                  textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.number,
                                 ),
                               ),
@@ -281,7 +287,7 @@ class _AtualizarContaPageState extends State<AtualizarContaPage> {
                                   ),
                                   controller: _tComplemento,
                                   validator: _validateComplemento,
-                                  textInputAction: TextInputAction.done,
+                                  textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
                                 ),
                               ),
@@ -329,7 +335,7 @@ class _AtualizarContaPageState extends State<AtualizarContaPage> {
                                   ),
                                   controller: _tBairro,
                                   validator: _validateBairro,
-                                  textInputAction: TextInputAction.done,
+                                  textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
                                 ),
                               ),
@@ -377,8 +383,9 @@ class _AtualizarContaPageState extends State<AtualizarContaPage> {
                                   ),
                                   controller: _tCEP,
                                   validator: _validateCEP,
-                                  textInputAction: TextInputAction.done,
+                                  textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.number,
+                                  inputFormatters: [cepMaskFormatter],
                                 ),
                               ),
                             ),
@@ -425,7 +432,7 @@ class _AtualizarContaPageState extends State<AtualizarContaPage> {
                                   ),
                                   controller: _tEstado,
                                   validator: _validateEstado,
-                                  textInputAction: TextInputAction.done,
+                                  textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
                                 ),
                               ),
@@ -479,6 +486,7 @@ class _AtualizarContaPageState extends State<AtualizarContaPage> {
                               ),
                             ),
                           ),
+                          SizedBox(height: 10),
                           Center(
                             child: Container(
                               width: 188,
@@ -502,7 +510,7 @@ class _AtualizarContaPageState extends State<AtualizarContaPage> {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -593,17 +601,35 @@ class _AtualizarContaPageState extends State<AtualizarContaPage> {
       "uf": uf
     };
 
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(uid)
-        .update(usermap)
-        .then((value) {
-      alert(context, "Dados salvos com sucesso!");
-      Future.delayed(Duration(seconds: 3)).then((value) {
-        push(context, InitialPage(), replace: true);
+    var doc = await FirebaseFirestore.instance.collection("users").doc(uid).get();
+    if(doc.exists) {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .update(usermap)
+          .then((value) {
+        alert(context, "Dados salvos com sucesso!");
+        Future.delayed(Duration(seconds: 3)).then((value) {
+          push(context, InitialPage(), replace: true);
+        });
+      }).catchError((error) {
+        print("ERRO >>>>>>>>>>>>>>>> $error");
+        alert(context, "Ocorreu um erro ao salvar os dados, tente novamente");
       });
-    }).catchError(() {
-      alert(context, "Ocorreu um erro ao salvar os dados, tente novamente");
-    });
+    } else {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .set(usermap)
+          .then((value) {
+        alert(context, "Dados salvos com sucesso!");
+        Future.delayed(Duration(seconds: 3)).then((value) {
+          push(context, InitialPage(), replace: true);
+        });
+      }).catchError((error) {
+        print("ERRO >>>>>>>>>>>>>>>> $error");
+        alert(context, "Ocorreu um erro ao salvar os dados, tente novamente");
+      });
+    }
   }
 }

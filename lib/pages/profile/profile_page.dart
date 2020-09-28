@@ -55,16 +55,17 @@ class _ProfilePageState extends State<ProfilePage> {
         .doc(user.uid)
         .get()
         .then((value) {
-      Usuario data = Usuario.fromJson(value.data());
+      var data = value.data();
 
-      _tNome.text = data.nome ?? "";
+      if(data != null && !data.isEmpty) {
+        _tNome.text = data['nome'] ?? "";
 
-      _tSobrenome.text = data.sobrenome ?? "";
-      _tCPF.text = data.cpf ?? "";
-      _tEmail.text = data.email ?? "";
-      _tCelular.text = data.celular ?? "";
-      _tNascimento.text = data.nascimento ?? "";
-      // setState(() {});
+        _tSobrenome.text = data['sobrenome'] ?? "";
+        _tCPF.text = data['cpf'] ?? "";
+        _tEmail.text = data['email'] ?? "";
+        _tCelular.text = data['celular'] ?? "";
+        _tNascimento.text = data['nascimento'] ?? "";
+      }
     });
 
     return Scaffold(
@@ -275,7 +276,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   controller: _tCPF,
                                   validator: _validateCPF,
-                                  textInputAction: TextInputAction.done,
+                                  textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.number,
                                 ),
                               ),
@@ -372,7 +373,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   controller: _tCelular,
                                   validator: _validateCelular,
-                                  textInputAction: TextInputAction.done,
+                                  textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.number,
                                 ),
                               ),
@@ -532,17 +533,35 @@ class _ProfilePageState extends State<ProfilePage> {
       "sobrenome": sobrenome,
     };
 
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(uid)
-        .update(userMap)
-        .then((value) {
-      alert(context, "Dados salvos com sucesso!");
-      Future.delayed(Duration(seconds: 3)).then((value) {
-        push(context, InitialPage(), replace: true);
+    var doc = await FirebaseFirestore.instance.collection("users").doc(uid).get();
+    if(doc.exists) {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .update(userMap)
+          .then((value) {
+        alert(context, "Dados salvos com sucesso!");
+        Future.delayed(Duration(seconds: 3)).then((value) {
+          push(context, InitialPage(), replace: true);
+        });
+      }).catchError((error) {
+        print("ERRO >>>>>>>>>>>>>>>> $error");
+        alert(context, "Ocorreu um erro ao salvar os dados, tente novamente");
       });
-    }).catchError(() {
-      alert(context, "Ocorreu um erro ao salvar os dados, tente novamente");
-    });
+    } else {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .set(userMap)
+          .then((value) {
+        alert(context, "Dados salvos com sucesso!");
+        Future.delayed(Duration(seconds: 3)).then((value) {
+          push(context, InitialPage(), replace: true);
+        });
+      }).catchError((error) {
+        print("ERRO >>>>>>>>>>>>>>>> $error");
+        alert(context, "Ocorreu um erro ao salvar os dados, tente novamente");
+      });
+    }
   }
 }
